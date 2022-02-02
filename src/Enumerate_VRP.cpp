@@ -366,7 +366,7 @@ int main(int argc, char *argv[]) {
 		for(int i = 0; i < NUM_STOPS; i++) {
 			fprintf(pOutputFile, "\t%d", i+1);
 		}
-		fprintf(pOutputFile, "\n");
+		fprintf(pOutputFile, " :=\n");
 		for(int t = 0; t < (int)tours.size(); t++) {
 			fprintf(pOutputFile, "%d", t+1);
 			for(int i = 0; i < NUM_STOPS; i++) {

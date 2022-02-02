@@ -1,0 +1,49 @@
+# Reset the environment
+reset;
+
+
+####### Model #######
+model;
+
+# Set parameters
+param k;					# Number of trucks available
+param N;					# Number of know optimal tours
+param M;					# Number of stops
+
+# Sets
+set I := 1..N;				# Set of tours
+set J := 1..M;				# Set of stops
+
+# Problem parameters
+param d{i in I};			# Distance of tour i (from TSP enumeration, this is g_i() )
+param r{i in I, j in J};	# Tour index. 1 if stop j is on tour i, 0 o.w.
+
+# Variables
+var X{i in I} binary;		# Number of vehicles available
+
+
+# Objective function
+minimize Total_Dist:
+	sum{i in I} d[i] * X[i]
+;
+
+# Constraints
+subject to Visit_Everyone{j in J}: 
+	sum{i in I} r[i,j]*X[i] = 1
+;
+
+subject to Number_of_Trucks:
+	sum{i in I} X[i] <= k
+;
+
+
+####### Data #######
+data enum_vrp.dat;
+
+
+####### Solve #######
+option solver cplex;
+option omit_zero_rows 1;
+option display_1col 1000;
+solve;
+display Total_Dist, X;
